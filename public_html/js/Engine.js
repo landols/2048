@@ -93,9 +93,7 @@ var Engine = new Class({
                 return;
             }
 
-            this.pieces.each(function(piece) {
-                this._move_piece(piece, e.key);
-            }.bind(this));
+            this._move_pieces(e.key);
 
             this._add_piece();
         }.bind(this));
@@ -108,57 +106,99 @@ var Engine = new Class({
     _game_over: function() {
         return this.pieces.length === Math.pow(this.size, 2);
     },
-    _move_piece: function(piece, direction) {
+    _move_pieces: function(direction) {
+        var x, y;
+
         if (direction == "up") {
-            this._move_up(piece);
+            for (y = 0; y < this.size; y++) {
+                for (x = 0; x < this.size; x++) {
+                    this._move_up(this.pieces[x][y]);
+                }
+            }
         }
         else if (direction == "down") {
-            this._move_down(piece);
+            for (y = this.size -1 ; y >= 0; y--) {
+                for (x = 0; x < this.size; x++) {
+                    this._move_down(this.pieces[x][y]);
+                }
+            }
         }
         else if (direction == "left") {
-            this._move_left(piece);
+            for (x = 0; x < this.size; x++) {
+                for (y = 0; y < this.size; y++) {
+                    this._move_left(this.pieces[x][y]);
+                }
+            }
         }
         else if (direction == "right") {
-            this._move_right(piece);
+            for (x = 0; x < this.size; x++) {
+                for (y = this.size -1 ; y >= 0; y--) {
+                    this._move_right(this.pieces[x][y]);
+                }
+            }
         }
     },
     _move_up: function(piece) {
+        if (piece === null) {
+            return;
+        }
+
+        this.pieces[piece.x][piece.y] = null;
+
         var y_up = this._find_y_up(piece.x, piece.y);
-        console.log(piece);
-        console.log(y_up);
 
         piece.y = y_up;
         piece.element.setStyle("top", y_up * 100);
+
+        this.pieces[piece.x][y_up] = piece;
     },
     _move_down: function(piece) {
+        if (piece === null) {
+            return;
+        }
+
+        this.pieces[piece.x][piece.y] = null;
+
         var y_down = this._find_y_down(piece.x, piece.y);
-        console.log(piece);
-        console.log(y_down);
 
         piece.y = y_down;
         piece.element.setStyle("top", y_down * 100);
+
+        this.pieces[piece.x][y_down] = piece;
     },
     _move_left: function(piece) {
+        if (piece === null) {
+            return;
+        }
+
+        this.pieces[piece.x][piece.y] = null;
+
         var x_left = this._find_x_left(piece.x, piece.y);
-        console.log(piece);
-        console.log(x_left);
 
         piece.x = x_left;
         piece.element.setStyle("left", x_left * 100);
+
+        this.pieces[x_left][piece.y] = piece;
     },
     _move_right: function(piece) {
+        if (piece === null) {
+            return;
+        }
+
+        this.pieces[piece.x][piece.y] = null;
+
         var x_right = this._find_x_right(piece.x, piece.y);
-        console.log(piece);
-        console.log(x_right);
 
         piece.x = x_right;
         piece.element.setStyle("left", x_right * 100);
+
+        this.pieces[x_right][piece.y] = piece;
     },
     _find_y_up: function(x, y) {
         var y_up = 0;
 
-        this.pieces.each(function(piece) {
-            if (piece.x != x) {
+        this.pieces[x].each(function(piece) {
+            if (piece === null) {
                 return;
             }
 
@@ -172,8 +212,8 @@ var Engine = new Class({
     _find_y_down: function(x, y) {
         var y_down = this.size - 1;
 
-        this.pieces.each(function(piece) {
-            if (piece.x != x) {
+        this.pieces[x].each(function(piece) {
+            if (piece !== null) {
                 return;
             }
 
@@ -187,8 +227,8 @@ var Engine = new Class({
     _find_x_left: function(x, y) {
         var x_left = 0;
 
-        this.pieces.each(function(piece) {
-            if (piece.y != y) {
+        this.pieces[y].each(function(piece) {
+            if (piece !== null) {
                 return;
             }
 
@@ -202,8 +242,8 @@ var Engine = new Class({
     _find_x_right: function(x, y) {
         var x_right = this.size - 1;
 
-        this.pieces.each(function(piece) {
-            if (piece.y != y) {
+        this.pieces[y].each(function(piece) {
+            if (piece !== null) {
                 return;
             }
 
