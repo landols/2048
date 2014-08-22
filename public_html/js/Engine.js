@@ -213,7 +213,7 @@ var Engine = new Class({
         var y_down = this.size - 1;
 
         this.pieces[x].each(function(piece) {
-            if (piece !== null) {
+            if (piece === null) {
                 return;
             }
 
@@ -228,7 +228,7 @@ var Engine = new Class({
         var x_left = 0;
 
         this.pieces[y].each(function(piece) {
-            if (piece !== null) {
+            if (piece === null) {
                 return;
             }
 
@@ -243,7 +243,7 @@ var Engine = new Class({
         var x_right = this.size - 1;
 
         this.pieces[y].each(function(piece) {
-            if (piece !== null) {
+            if (piece === null) {
                 return;
             }
 
