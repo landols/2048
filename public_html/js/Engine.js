@@ -53,14 +53,12 @@ var Engine = new Class({
         return true;
     },
     printPieces: function() {
-        this.pieces.each(function(piece) {
-            this._print_piece(piece.value, piece.x, piece.y);
-        }.bind(this));
-    },
-    _print_piece: function(value, x, y) {
-        var pieceElement = this._create_piece_element(value, x, y);
+        this.pieces.each(function(piece, index) {
+            var pieceElement = this._create_piece_element(piece.value, piece.x, piece.y);
 
-        pieceElement.inject(this.container);
+            pieceElement.inject(this.container);
+            this.pieces[index].element = pieceElement;
+        }.bind(this));
     },
     _create_piece_element: function(value, x, y) {
         return new Element("div", {
@@ -89,10 +87,7 @@ var Engine = new Class({
                 return;
             }
 
-            var piece = this._create_piece();
-
-            this.pieces.push(piece);
-            this._print_piece(piece.value, piece.x, piece.y);
+            this._add_piece();
         }.bind(this));
     },
     _forbidden_key: function(key) {
@@ -102,5 +97,14 @@ var Engine = new Class({
     },
     _game_over: function() {
         return this.pieces.length === Math.pow(this.size, 2);
+    },
+    _add_piece: function() {
+        var piece = this._create_piece();
+        var pieceElement = this._create_piece_element(piece.value, piece.x, piece.y);
+
+        pieceElement.inject(this.container);
+        piece.element = pieceElement;
+
+        this.pieces.push(piece);
     }
 });
