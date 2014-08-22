@@ -5,3 +5,15 @@
     background: #CCC;
     font: bold 20px Arial;
 }
+
+.piece.one { background: #EEE; }
+.piece.two { background: #DDD; }
+.piece.three { background: #CCC; }
+.piece.four { background: #BBB; }
+.piece.five { background: #AAA; }
+.piece.six { background: #999; }
+.piece.seven { background: #888; }
+.piece.eight { background: #777; }
+.piece.nine { background: #666; }
+.piece.ten { background: #555; }
+.piece.final { background: #F00; }
