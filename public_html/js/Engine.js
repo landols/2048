@@ -19,12 +19,19 @@ var Engine = new Class({
     initialize: function(container_id) {
         this.container = document.id(container_id);
 
-        this.pieces.push(this._create_piece());
-        this.pieces.push(this._create_piece());
-
-        this.printPieces();
+        this._add_piece();
+        this._add_piece();
 
         this._init_events();
+    },
+    _add_piece: function() {
+        var piece = this._create_piece();
+        var pieceElement = this._create_piece_element(piece.value, piece.x, piece.y);
+
+        pieceElement.inject(this.container);
+        piece.element = pieceElement;
+
+        this.pieces.push(piece);
     },
     _create_piece: function() {
         var check, x, y;
@@ -51,14 +58,6 @@ var Engine = new Class({
         }
 
         return true;
-    },
-    printPieces: function() {
-        this.pieces.each(function(piece, index) {
-            var pieceElement = this._create_piece_element(piece.value, piece.x, piece.y);
-
-            pieceElement.inject(this.container);
-            this.pieces[index].element = pieceElement;
-        }.bind(this));
     },
     _create_piece_element: function(value, x, y) {
         return new Element("div", {
@@ -101,15 +100,6 @@ var Engine = new Class({
     },
     _game_over: function() {
         return this.pieces.length === Math.pow(this.size, 2);
-    },
-    _add_piece: function() {
-        var piece = this._create_piece();
-        var pieceElement = this._create_piece_element(piece.value, piece.x, piece.y);
-
-        pieceElement.inject(this.container);
-        piece.element = pieceElement;
-
-        this.pieces.push(piece);
     },
     _move_piece: function(piece, direction) {
         if (direction == "up") {
