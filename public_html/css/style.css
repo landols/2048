@@ -1,0 +1,7 @@
+.piece {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    background: #CCC;
+    font: bold 20px Arial;
+}
