@@ -87,6 +87,10 @@ var Engine = new Class({
                 return;
             }
 
+            this.pieces.each(function(piece) {
+                this._move_piece(piece, e.key);
+            }.bind(this));
+
             this._add_piece();
         }.bind(this));
     },
@@ -106,5 +110,111 @@ var Engine = new Class({
         piece.element = pieceElement;
 
         this.pieces.push(piece);
+    },
+    _move_piece: function(piece, direction) {
+        if (direction == "up") {
+            this._move_up(piece);
+        }
+        else if (direction == "down") {
+            this._move_down(piece);
+        }
+        else if (direction == "left") {
+            this._move_left(piece);
+        }
+        else if (direction == "right") {
+            this._move_right(piece);
+        }
+    },
+    _move_up: function(piece) {
+        var y_up = this._find_y_up(piece.x, piece.y);
+        console.log(piece);
+        console.log(y_up);
+
+        piece.y = y_up;
+        piece.element.setStyle("top", y_up * 100);
+    },
+    _move_down: function(piece) {
+        var y_down = this._find_y_down(piece.x, piece.y);
+        console.log(piece);
+        console.log(y_down);
+
+        piece.y = y_down;
+        piece.element.setStyle("top", y_down * 100);
+    },
+    _move_left: function(piece) {
+        var x_left = this._find_x_left(piece.x, piece.y);
+        console.log(piece);
+        console.log(x_left);
+
+        piece.x = x_left;
+        piece.element.setStyle("left", x_left * 100);
+    },
+    _move_right: function(piece) {
+        var x_right = this._find_x_right(piece.x, piece.y);
+        console.log(piece);
+        console.log(x_right);
+
+        piece.x = x_right;
+        piece.element.setStyle("left", x_right * 100);
+    },
+    _find_y_up: function(x, y) {
+        var y_up = 0;
+
+        this.pieces.each(function(piece) {
+            if (piece.x != x) {
+                return;
+            }
+
+            if ((piece.y < y) && (piece.y >= y_up)) {
+                y_up = piece.y + 1;
+            }
+        });
+
+        return y_up;
+    },
+    _find_y_down: function(x, y) {
+        var y_down = this.size - 1;
+
+        this.pieces.each(function(piece) {
+            if (piece.x != x) {
+                return;
+            }
+
+            if ((piece.y > y) && (piece.y <= y_down)) {
+                y_down = piece.y - 1;
+            }
+        });
+
+        return y_down;
+    },
+    _find_x_left: function(x, y) {
+        var x_left = 0;
+
+        this.pieces.each(function(piece) {
+            if (piece.y != y) {
+                return;
+            }
+
+            if ((piece.x < x) && (piece.x >= x_left)) {
+                x_left = piece.x + 1;
+            }
+        });
+
+        return x_left;
+    },
+    _find_x_right: function(x, y) {
+        var x_right = this.size - 1;
+
+        this.pieces.each(function(piece) {
+            if (piece.y != y) {
+                return;
+            }
+
+            if ((piece.x > x) && (piece.x <= x_right)) {
+                x_right = piece.x - 1;
+            }
+        });
+
+        return x_right;
     }
 });
