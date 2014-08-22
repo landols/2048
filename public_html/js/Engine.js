@@ -1,4 +1,5 @@
 var Engine = new Class({
+    gameOver: false,
     container: null,
     size: 4,
     pieces: [],
@@ -73,16 +74,22 @@ var Engine = new Class({
     },
     _init_events: function() {
         document.addEvent("keyup", function(e) {
+            if (this.gameOver) {
+                return;
+            }
+
             if (this._forbidden_key(e.key)) {
                 return;
             }
 
             if (this._game_over()) {
-                alert ("game over");
+                alert ("Game Over");
+                this.gameOver = true;
+
                 return;
             }
 
-            var piece = this.createPiece();
+            var piece = this._create_piece();
 
             this.pieces.push(piece);
             this._print_piece(piece.value, piece.x, piece.y);
@@ -94,6 +101,6 @@ var Engine = new Class({
         return allowed_keys.indexOf(key) === false;
     },
     _game_over: function() {
-        return this.pieces.length === this.size ^ 2;
+        return this.pieces.length === Math.pow(this.size, 2);
     }
 });
