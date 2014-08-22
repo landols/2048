@@ -98,7 +98,7 @@ var Engine = new Class({
     _forbidden_key: function(key) {
         var allowed_keys = ["up", "down", "left", "right"];
 
-        return allowed_keys.indexOf(key) === false;
+        return allowed_keys.indexOf(key) === -1;
     },
     _game_over: function() {
         return this.pieces.length === Math.pow(this.size, 2);
