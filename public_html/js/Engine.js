@@ -19,10 +19,23 @@ var Engine = new Class({
     initialize: function(container_id) {
         this.container = document.id(container_id);
 
+        this._init_pieces();
+
         this._add_piece();
         this._add_piece();
 
         this._init_events();
+    },
+    _init_pieces: function() {
+        for (i = 0; i < this.size; i++) {
+            var row = [];
+
+            for (j = 0; j < this.size; j++) {
+                row.push(null);
+            }
+
+            this.pieces.push(row);
+        }
     },
     _add_piece: function() {
         var piece = this._create_piece();
@@ -31,7 +44,7 @@ var Engine = new Class({
         pieceElement.inject(this.container);
         piece.element = pieceElement;
 
-        this.pieces.push(piece);
+        this.pieces[piece.x][piece.y] = piece;
     },
     _create_piece: function() {
         var check, x, y;
@@ -51,13 +64,7 @@ var Engine = new Class({
         };
     },
     _check_piece_position: function(x, y) {
-        for (i = 0; i < this.pieces.length; i++) {
-            if ((this.pieces[i].x == x) && (this.pieces[i].y == y)) {
-                return false;
-            }
-        }
-
-        return true;
+        return this.pieces[x][y] === null;
     },
     _create_piece_element: function(value, x, y) {
         return new Element("div", {
