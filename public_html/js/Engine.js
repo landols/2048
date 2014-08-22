@@ -104,7 +104,15 @@ var Engine = new Class({
         return allowed_keys.indexOf(key) === -1;
     },
     _game_over: function() {
-        return this.pieces.length === Math.pow(this.size, 2);
+        for (var x = 0; x < this.size; x++) {
+            for (var y = 0; y < this.size; y++) {
+                if (this.pieces[x][y] === null) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     },
     _move_pieces: function(direction) {
         var x, y;
